@@ -3,7 +3,7 @@ import { user as userModel, url as urlModel } from '../database/schema.js';
 import crypto from 'crypto';
 
 const urlRoute = express.Router();
-const link = 'http://localhost:5173'
+
 urlRoute.post('/shorten', async (req, res) => {
 
     const { email, longUrl } = req.body;
@@ -16,7 +16,7 @@ urlRoute.post('/shorten', async (req, res) => {
         return
     }
     const key = crypto.randomBytes(8).toString('hex');
-    const shortUrl = `http://localhost:3000/url/${key}`
+    const shortUrl = `https://urlshotener-backend.onrender.com/url/${key}`
     const createdDt = new Date();
     const insertData = { ...req.body, shortUrl: key, id: nextId.length + 1, userId: user.userId, created: createdDt };
     const url = new urlModel(insertData)
