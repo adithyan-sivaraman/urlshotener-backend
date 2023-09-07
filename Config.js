@@ -1,0 +1,1 @@
+export const frontEndUrl = "https://super-granita-7e15d7.netlify.app"
