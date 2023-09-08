@@ -1,1 +1,1 @@
-export const frontEndUrl = "https://glistening-marshmallow-aa3304.netlify.app/"
+export const frontEndUrl = "https://glistening-marshmallow-aa3304.netlify.app"
