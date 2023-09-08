@@ -4,6 +4,16 @@ import crypto from 'crypto';
 
 const urlRoute = express.Router();
 
+
+/*
+    1. This endpoint is shorten a long URL
+    2. Check whether the URL has already been shortened
+    3. If not generate short url using using crypto module  and send shortened url as response
+    4. If link already shortened send response 
+    
+*/
+
+
 urlRoute.post('/shorten', async (req, res) => {
 
     const { email, longUrl } = req.body;
@@ -27,6 +37,15 @@ urlRoute.post('/shorten', async (req, res) => {
 
 })
 
+/*
+    1. This endpoint is to verify the short url
+    2. get the key from path params and compare it with database
+    3. if short url is valid then redirect to the long url
+    4. if short url is not valid the send response 
+    
+*/
+
+
 urlRoute.get('/:key', async (req, res) => {
     const { key } = req.params;
     let url = await urlModel.findOne({ shortUrl: key });
@@ -44,6 +63,12 @@ urlRoute.get('/:key', async (req, res) => {
 
 
 });
+
+/*
+    1. This endpoint is to fetch the list of shortened URLs
+    2. Fetches the list of shortened urls and send as response
+*/
+
 
 urlRoute.post('/fetch', async (req, res) => {
     const { userId } = req.body;

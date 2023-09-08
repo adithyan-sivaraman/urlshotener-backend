@@ -8,6 +8,13 @@ import { frontEndUrl } from '../Config.js';
 
 const userRoute = express.Router();
 
+/*
+    1. This Endpoint is for user registration
+    2. Check is email address exists if not generate json webtoken and send link for activation
+    3. hash the password using brcypt and save in database
+    4. If user exists then send response text
+*/
+
 userRoute.post('/register', async (req, res) => {
 
     const data = req.body;
@@ -56,6 +63,12 @@ userRoute.post('/register', async (req, res) => {
 
 })
 
+/*
+    1. This Endpoint is for validating login credentials
+    2. Check if email address is valid and then verify password hash using bcrypt
+    3. If email or password is not valid send response text
+*/
+
 userRoute.post('/login', async (req, res) => {
 
     const { email, password } = req.body;
@@ -95,6 +108,13 @@ userRoute.post('/login', async (req, res) => {
 
 });
 
+/*
+    1. This endpoint to send rest password link and update password if link is valid
+    2. If email exists and is active  generate json web token and send a link
+    3 if Email is not active then send response to activate email
+    4. If email is invalid then send response
+*/
+
 userRoute.post('/reset', async (req, res) => {
     const email = req.body.email;
 
@@ -106,7 +126,7 @@ userRoute.post('/reset', async (req, res) => {
     else {
         try {
             const password = req.body.password;
-
+            // when password is there request body then update password
             if (password !== "") {
                 const token = req.body.token;
                 jwt.verify(token, process.env.SECRET_KEY, async (err) => {
@@ -122,6 +142,8 @@ userRoute.post('/reset', async (req, res) => {
                 });
                 return;
             }
+            
+            // when password is mot there request body then generate json web token and send email
             else {
                 const active = users.active;;
                 if (active === false) {
@@ -173,6 +195,14 @@ userRoute.post('/reset', async (req, res) => {
 
 })
 
+/*
+    1. This endpoint is to verify the password reset link
+    2. Get token from query params and verify it
+    3   If link is invalid or expired send response 
+    4. if link is valid then allow pasword reset
+*/
+
+
 userRoute.post('/verify', async (req, res) => {
     try {
 
@@ -201,6 +231,16 @@ userRoute.post('/verify', async (req, res) => {
         res.status(500).json({ message: 'Error in validating' });
     }
 });
+
+/*
+    1. This endpoint is to activate the user
+    2. Get json web token from query params and verify it
+    3. If link is invalid send respone 
+    4. If link expired then regenerate a new activation and send email
+    5. if link is valid then activate the user 
+*/
+
+
 
 userRoute.post('/activate', async (req, res) => {
     try {
