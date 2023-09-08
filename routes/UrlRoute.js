@@ -21,7 +21,7 @@ urlRoute.post('/shorten', async (req, res) => {
     const insertData = { ...req.body, shortUrl: key, id: nextId.length + 1, userId: user.userId, created: createdDt };
     const url = new urlModel(insertData)
     await url.save();
-    // console.log(url)
+    
     res.json({ message: 'shortened', data: {...insertData,shortUrl:shortUrl}});
 
 

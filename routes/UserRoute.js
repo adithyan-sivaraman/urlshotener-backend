@@ -79,7 +79,7 @@ userRoute.post('/login', async (req, res) => {
                 if (error) return;
                 if (result === true) {
                     const url = await urlModel.find({userId:users.userId},{__v:0,_id:0});
-                    console.log(url.length)
+                    
                     res.status(200).json({ "message": "user active","userId":users.userId,'urlData':url });
                 } else {
                     res.status(401).json({ "message": "incorrect password" });
