@@ -4,9 +4,10 @@ import bcrypt from 'bcrypt';
 import { v4 } from 'uuid';
 import jwt from 'jsonwebtoken'
 import { transport } from './mailer.js'
+import { frontEndUrl } from '../Config.js';
 
 const userRoute = express.Router();
-const link = 'http://localhost:5173'
+
 userRoute.post('/register', async (req, res) => {
 
     const data = req.body;
@@ -30,7 +31,7 @@ userRoute.post('/register', async (req, res) => {
                 html: `
                 <p><b>Hello ${data.fname} ${data.lname}!</b></p>
                 <p>Welcome to the portal !</p>
-                <p>Kindly click on this <a href="${link}/activate?token=${token}">link</a> to activate your account</p>
+                <p>Kindly click on this <a href="${frontEndUrl}/activate?token=${token}">link</a> to activate your account</p>
                 <p>This Link will be  valid for 1 day only </p>
                 <p>With regards</p>
                 <p>Admin</p>`,
@@ -38,7 +39,7 @@ userRoute.post('/register', async (req, res) => {
                 Hello ${data.fname} ${data.lname}!
                 
                 Welcome to the portal
-                Kindly click on this link ${link}/activate?token=${token} to activate your account
+                Kindly click on this link ${frontEndUrl}/activate?token=${token} to activate your account
                 This Link will be  valid for 1 day only
                 With regards
                 Admin
@@ -137,7 +138,7 @@ userRoute.post('/reset', async (req, res) => {
                         html: `
                             <p><b>Dear ${users.fname} ${users.lname}!</b></p>
                             <p>You have made a password reset request!</p>
-                            <p>Kindly click on this <a href="${link}/reset?token=${token}">link</a> to reset password</p>
+                            <p>Kindly click on this <a href="${frontEndUrl}/reset?token=${token}">link</a> to reset password</p>
                             <p>This Link will be  valid for 1 day only </p>
                             <p>With regards</p>
                             <p>Admin</p>`,
@@ -146,7 +147,7 @@ userRoute.post('/reset', async (req, res) => {
                     
                     You have made a password reset request!
                     
-                    Kindly click on this link ${link}/reset?token=${token} reset to activate reset password
+                    Kindly click on this link ${frontEndUrl}/reset?token=${token} reset to activate reset password
                     
                     This Link will be  valid for 1 day only
                     
@@ -228,7 +229,7 @@ userRoute.post('/activate', async (req, res) => {
                         html: `
                         <p><b>Hello ${users.fname} ${users.lname}!</b></p>
                         <p>You have requested for regenerating activation link</p>
-                        <p>Kindly click on this <a href="${link}/activate?token=${token}">link</a> to activate your account</p>
+                        <p>Kindly click on this <a href="${frontEndUrl}/activate?token=${token}">link</a> to activate your account</p>
                         <p>This Link will be  valid for 1 day only </p>
                         <p>With regards</p>
                         <p>Admin</p>`,
@@ -240,7 +241,7 @@ userRoute.post('/activate', async (req, res) => {
 
                         This Link will be  valid for 1 day only 
 
-                        Kindly click on this link ${link}/activate?token=${token} to activate your account.
+                        Kindly click on this link ${frontEndUrl}/activate?token=${token} to activate your account.
 
                         With regards
                         Admin`
